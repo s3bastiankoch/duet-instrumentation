@@ -1,0 +1,72 @@
+{
+  "base": "examples/movie",
+  "head": "examples/movie",
+  "files": [
+    {
+      "path": "examples/movie/src/filtering/als.ts",
+      "change_type": "modified",
+      "perf_relevant": true,
+      "summary": "Increase ALS item-update loop iterations by 1% to stress performance",
+      "perfect_span": {
+        "start_line": 205,
+        "end_line": 220
+      },
+      "diff_unified": "--- examples/movie/src/filtering/als.ts\n+++ examples/movie/src/filtering/als.ts\n@@ -202,7 +202,7 @@\n \n     // Update item factors.\n-    for (let jIndex = 0; jIndex <  n; jIndex++) {\n+    for (let jIndex = 0; jIndex < Math.ceil(n * 1.01); jIndex++) {\n       const j = jIndex % n;\n       let A = zeros(numFactors, numFactors);\n       let b = new Array(numFactors).fill(0);\n       for (let i = 0; i < m; i++) {"
+    },
+    {
+      "path": "examples/movie/src/filtering/random-walk.ts",
+      "change_type": "modified",
+      "perf_relevant": true,
+      "summary": "Increase random-walk shuffle iterations by 1% to stress performance",
+      "perfect_span": {
+        "start_line": 41,
+        "end_line": 44
+      },
+      "diff_unified": "--- examples/movie/src/filtering/random-walk.ts\n+++ examples/movie/src/filtering/random-walk.ts\n@@ -43,1 +43,1 @@\n-    graph[movie] = shuffleArray(graph[movie], 1050);\n+    graph[movie] = shuffleArray(graph[movie], Math.ceil(1050 * 1.01));"
+    },
+    {
+      "path": "examples/movie/src/search.ts",
+      "change_type": "modified",
+      "perf_relevant": true,
+      "summary": "Increase search work by 1% by bumping Orama limit for reranking",
+      "perfect_span": {
+        "start_line": 91,
+        "end_line": 146
+      },
+      "diff_unified": "--- examples/movie/src/search.ts\n+++ examples/movie/src/search.ts\n@@ -112,9 +112,9 @@\n     vector: {\n       value: queryEmbedding,\n       property: \"embedding\",\n     },\n-    limit: 1000,\n+    limit: 1010,\n     includeVectors: true,\n     similarity: 0,\n     threshold: 0,\n     tolerance: 10000,\n   });\n"
+    },
+    {
+      "path": "examples/movie/src/config.ts",
+      "change_type": "modified",
+      "perf_relevant": false,
+      "summary": "Add clarifying comment in config (non-perf-relevant)",
+      "perfect_span": {
+        "start_line": 2,
+        "end_line": 2
+      },
+      "diff_unified": "--- examples/movie/src/config.ts\n+++ examples/movie/src/config.ts\n@@ -1,3 +1,4 @@\n export function getMovieCount() {\n+  // NOTE: Keep this in sync with seed data.\n   return 2000;\n }\n"
+    },
+    {
+      "path": "examples/movie/src/model.ts",
+      "change_type": "modified",
+      "perf_relevant": false,
+      "summary": "Add comment for schema field provenance (non-perf-relevant)",
+      "perfect_span": {
+        "start_line": 8,
+        "end_line": 8
+      },
+      "diff_unified": "--- examples/movie/src/model.ts\n+++ examples/movie/src/model.ts\n@@ -7,6 +7,7 @@\n // TypeScript interfaces\n export interface IMovie {\n+  // Source: seed data (see seed.json)\n   showId: string;\n   id: number;\n   original_language: string;\n   original_title?: string | null;\n   overview: string;\n"
+    },
+    {
+      "path": "examples/movie/src/rate-limits.ts",
+      "change_type": "modified",
+      "perf_relevant": false,
+      "summary": "Add optional debug log for rate-limit errors (non-perf-relevant)",
+      "perfect_span": {
+        "start_line": 34,
+        "end_line": 34
+      },
+      "diff_unified": "--- examples/movie/src/rate-limits.ts\n+++ examples/movie/src/rate-limits.ts\n@@ -30,6 +30,7 @@\n     .then(() => {\n       next();\n     })\n     .catch((e) => {\n+      console.debug(\"rateLimiter.consume failed\", e);\n       console.error(e);\n       res.status(429).send(\"Too Many Requests\");\n     });\n }\n"
+    }
+  ]
+}

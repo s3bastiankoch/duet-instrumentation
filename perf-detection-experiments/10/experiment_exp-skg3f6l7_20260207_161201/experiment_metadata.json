@@ -1,0 +1,30 @@
+{
+  "experiment_id": "exp-skg3f6l7",
+  "resource_owner": "sebastian-koch-exp-skg3f6l7",
+  "timestamp": "20260207_161201",
+  "severity_pct": 10,
+  "vus": 5,
+  "duration": "60s",
+  "load_mode": "vus",
+  "target_rps": null,
+  "arrival_time_unit": "1s",
+  "pre_allocated_vus": 20,
+  "max_vus": 50,
+  "calibrate": false,
+  "target_saturation": 95,
+  "compose_project": "exp-exp-skg3f6l7",
+  "remote_workdir": "/tmp/llm-exp-exp-skg3f6l7",
+  "sut_host": "35.246.216.32",
+  "loadgen_host": "35.246.177.212",
+  "sut_governor": "",
+  "sut_steal_time": "0",
+  "sut_topology": "0,0,0,0,1,1,0,0,2,2,0,0,3,3,0,0,4,0,0,0,5,1,0,0,6,2,0,0,7,3,0,0",
+  "cpu_pinning": {
+    "strategy": "isolated",
+    "os_cpuset": "0,4",
+    "base_cpuset": "1,5",
+    "head_cpuset": "2,6",
+    "infra_cpuset": "3,7",
+    "warnings": []
+  }
+}

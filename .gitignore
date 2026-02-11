@@ -59,10 +59,15 @@ skipped_instrumentation.json
 config.generated.yml
 
 *.pdf
+*.png
+*.svg
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.ico
 
 *.tgz
 
-perf-detection-experiments
-localization-experiments
-overhead-base-experiments
 overhead-experiments-aggregate

@@ -1,0 +1,7 @@
+# CPU pinning configuration (auto-generated)
+# Strategy: isolated
+# Topology: Logical CPUs: 8, Physical Cores: 4, Sockets: 1, NUMA Nodes: 1, Hyperthreading: True
+
+duet_base_cpuset: "1,5"
+duet_head_cpuset: "2,6"
+duet_mongo_cpuset: "3,7"

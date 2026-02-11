@@ -1,0 +1,31 @@
+{
+  "experiment_id": "exp-twt4cysi",
+  "resource_owner": "sebastian-koch-exp-twt4cysi",
+  "timestamp": "20260208_174707",
+  "severity_pct": 0,
+  "instrumented_version": "head",
+  "vus": 5,
+  "duration": "60s",
+  "load_mode": "vus",
+  "target_rps": null,
+  "arrival_time_unit": "1s",
+  "pre_allocated_vus": 20,
+  "max_vus": 50,
+  "calibrate": false,
+  "target_saturation": 95,
+  "compose_project": "exp-exp-twt4cysi",
+  "remote_workdir": "/tmp/llm-exp-exp-twt4cysi",
+  "sut_host": "34.179.130.204",
+  "loadgen_host": "34.179.167.12",
+  "sut_governor": "",
+  "sut_steal_time": "0",
+  "sut_topology": "0,0,0,0,1,1,0,0,2,2,0,0,3,3,0,0,4,0,0,0,5,1,0,0,6,2,0,0,7,3,0,0",
+  "cpu_pinning": {
+    "strategy": "isolated",
+    "os_cpuset": "0,4",
+    "base_cpuset": "1,5",
+    "head_cpuset": "2,6",
+    "infra_cpuset": "3,7",
+    "warnings": []
+  }
+}

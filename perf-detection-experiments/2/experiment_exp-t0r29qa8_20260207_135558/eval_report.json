@@ -1,0 +1,645 @@
+{
+  "per_span": {
+    "HTTP GET /top/user/user1/:id": {
+      "old": {
+        "n": 2377,
+        "mean": 98.03848199579224,
+        "stdev": 87.90281127091134,
+        "min": 26.5656650000019,
+        "max": 886.5070950000081,
+        "p50": 64.3917599999113,
+        "p90": 214.63785259998411,
+        "p95": 272.59140479997717,
+        "p99": 413.832013559993,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "new": {
+        "n": 2377,
+        "mean": 81.20951838451744,
+        "stdev": 59.250382846748764,
+        "min": 27.399261999991722,
+        "max": 920.0728980000131,
+        "p50": 63.29971900000237,
+        "p90": 151.06109419993595,
+        "p95": 184.85567879995787,
+        "p99": 270.5506849999676,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "deltas": {
+        "mean": {
+          "pct": -17.165671345255113,
+          "ci": null
+        },
+        "p50": {
+          "pct": -1.695932833502976,
+          "ci": null
+        },
+        "p95": {
+          "pct": -32.1858005993983,
+          "ci": null
+        }
+      },
+      "statistical_tests": {
+        "welch_t": {
+          "t_statistic": 7.739927205023494,
+          "p_value": 9.992007221626409e-15,
+          "is_significant": true
+        },
+        "cohens_d": {
+          "value": -0.22451082361275757,
+          "interpretation": "small"
+        }
+      },
+      "mde": {
+        "pct": 11.534746689803997,
+        "cohens_d": 0.09908736259992408,
+        "power": 0.8,
+        "observed_exceeds_mde": false,
+        "baseline": "p50"
+      },
+      "meta": {
+        "bootstrap": 2000,
+        "alpha": 0.01,
+        "seed": 0,
+        "power": 0.8,
+        "skip_ci": true,
+        "note": "All deltas are relative percentages: (new-old)/old*100. Positive=regression, negative=improvement."
+      }
+    },
+    "otel-agent:searchMovies.postprocess_candidates_and_levenshtein:d97fae0e": {
+      "old": {
+        "n": 347,
+        "mean": 20.68961323054685,
+        "stdev": 13.017650880759886,
+        "min": 6.046117999998387,
+        "max": 92.6784389999957,
+        "p50": 17.346652999985963,
+        "p90": 36.480907199991634,
+        "p95": 47.517818300022896,
+        "p99": 68.04935859999838,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "new": {
+        "n": 347,
+        "mean": 17.282563112393134,
+        "stdev": 9.780456405053958,
+        "min": 6.144700000004377,
+        "max": 67.11218200001167,
+        "p50": 15.41524999999092,
+        "p90": 29.91035940000729,
+        "p95": 37.13863260000507,
+        "p99": 47.93577162000122,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "deltas": {
+        "mean": {
+          "pct": -16.467442287047838,
+          "ci": null
+        },
+        "p50": {
+          "pct": -11.13415366063186,
+          "ci": null
+        },
+        "p95": {
+          "pct": -21.842723574732865,
+          "ci": null
+        }
+      },
+      "statistical_tests": {
+        "welch_t": {
+          "t_statistic": 3.8978473766813164,
+          "p_value": 9.70515482943135e-05,
+          "is_significant": true
+        },
+        "cohens_d": {
+          "value": -0.29592052609293695,
+          "interpretation": "small"
+        }
+      },
+      "mde": {
+        "pct": 17.212972035233864,
+        "cohens_d": 0.2593391735091837,
+        "power": 0.8,
+        "observed_exceeds_mde": false,
+        "baseline": "p50"
+      },
+      "meta": {
+        "bootstrap": 2000,
+        "alpha": 0.01,
+        "seed": 0,
+        "power": 0.8,
+        "skip_ci": true,
+        "note": "All deltas are relative percentages: (new-old)/old*100. Positive=regression, negative=improvement."
+      }
+    },
+    "HTTP GET /search": {
+      "old": {
+        "n": 347,
+        "mean": 1773.4914224236293,
+        "stdev": 681.3116529467421,
+        "min": 522.7301119999902,
+        "max": 5454.850047,
+        "p50": 1818.0119689999847,
+        "p90": 2435.4193291999927,
+        "p95": 2538.3257662000005,
+        "p99": 4387.96329736,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "new": {
+        "n": 347,
+        "mean": 1366.888765276657,
+        "stdev": 559.7154540755932,
+        "min": 527.5452430000005,
+        "max": 3822.2538649999988,
+        "p50": 1301.4085680000135,
+        "p90": 2113.1283851999965,
+        "p95": 2259.7533370999995,
+        "p99": 2906.5845044800067,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "deltas": {
+        "mean": {
+          "pct": -22.926677400633523,
+          "ci": null
+        },
+        "p50": {
+          "pct": -28.415841579092245,
+          "ci": null
+        },
+        "p95": {
+          "pct": -10.97465237951068,
+          "ci": null
+        }
+      },
+      "statistical_tests": {
+        "welch_t": {
+          "t_statistic": 8.590016132170577,
+          "p_value": 0.0,
+          "is_significant": true
+        },
+        "cohens_d": {
+          "value": -0.6521451066006068,
+          "interpretation": "medium"
+        }
+      },
+      "mde": {
+        "pct": 8.894004746747306,
+        "cohens_d": 0.25933917350918373,
+        "power": 0.8,
+        "observed_exceeds_mde": true,
+        "baseline": "p50"
+      },
+      "meta": {
+        "bootstrap": 2000,
+        "alpha": 0.01,
+        "seed": 0,
+        "power": 0.8,
+        "skip_ci": true,
+        "note": "All deltas are relative percentages: (new-old)/old*100. Positive=regression, negative=improvement."
+      }
+    },
+    "HTTP GET /top/region/us/:id": {
+      "old": {
+        "n": 2038,
+        "mean": 168.22194088272963,
+        "stdev": 117.58789049037671,
+        "min": 60.53660300001502,
+        "max": 785.2344070000108,
+        "p50": 126.21947399998317,
+        "p90": 366.00420940003244,
+        "p95": 418.049082300032,
+        "p99": 521.4620102199912,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "new": {
+        "n": 2038,
+        "mean": 153.64165143228632,
+        "stdev": 91.46619687178502,
+        "min": 68.49550299998373,
+        "max": 1025.3904529999709,
+        "p50": 131.52144800001406,
+        "p90": 273.0894167000253,
+        "p95": 333.4945433000072,
+        "p99": 453.753064849987,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "deltas": {
+        "mean": {
+          "pct": -8.667293561074455,
+          "ci": null
+        },
+        "p50": {
+          "pct": 4.200599029616938,
+          "ci": null
+        },
+        "p95": {
+          "pct": -20.225983641638614,
+          "ci": null
+        }
+      },
+      "statistical_tests": {
+        "welch_t": {
+          "t_statistic": 4.4183534276580865,
+          "p_value": 9.945569213520855e-06,
+          "is_significant": true
+        },
+        "cohens_d": {
+          "value": -0.13841187774742514,
+          "interpretation": "negligible"
+        }
+      },
+      "mde": {
+        "pct": 8.930940362009547,
+        "cohens_d": 0.10701157843676987,
+        "power": 0.8,
+        "observed_exceeds_mde": false,
+        "baseline": "p50"
+      },
+      "meta": {
+        "bootstrap": 2000,
+        "alpha": 0.01,
+        "seed": 0,
+        "power": 0.8,
+        "skip_ci": true,
+        "note": "All deltas are relative percentages: (new-old)/old*100. Positive=regression, negative=improvement."
+      }
+    },
+    "otel-agent:randomWalkWithRestart.init_scores_and_shuffle:5015b59f": {
+      "old": {
+        "n": 2038,
+        "mean": 2.497371673699029,
+        "stdev": 3.6850034626273507,
+        "min": 1.0758960000239313,
+        "max": 74.04273700003978,
+        "p50": 1.3047685000055935,
+        "p90": 5.011197600030572,
+        "p95": 7.328249949982273,
+        "p99": 16.681462879941627,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "new": {
+        "n": 2038,
+        "mean": 2.017583919529488,
+        "stdev": 2.5036634288926978,
+        "min": 1.1748969999607652,
+        "max": 70.11785099998815,
+        "p50": 1.4611274999915622,
+        "p90": 2.749789700005203,
+        "p95": 4.750044500004145,
+        "p99": 9.017595030018128,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "deltas": {
+        "mean": {
+          "pct": -19.211708021773724,
+          "ci": null
+        },
+        "p50": {
+          "pct": 11.983658402643718,
+          "ci": null
+        },
+        "p95": {
+          "pct": -35.18173462389018,
+          "ci": null
+        }
+      },
+      "statistical_tests": {
+        "welch_t": {
+          "t_statistic": 4.861804110636652,
+          "p_value": 1.1632070417988416e-06,
+          "is_significant": true
+        },
+        "cohens_d": {
+          "value": -0.15230366859765934,
+          "interpretation": "negligible"
+        }
+      },
+      "mde": {
+        "pct": 25.836644007657057,
+        "cohens_d": 0.10701157843676987,
+        "power": 0.8,
+        "observed_exceeds_mde": false,
+        "baseline": "p50"
+      },
+      "meta": {
+        "bootstrap": 2000,
+        "alpha": 0.01,
+        "seed": 0,
+        "power": 0.8,
+        "skip_ci": true,
+        "note": "All deltas are relative percentages: (new-old)/old*100. Positive=regression, negative=improvement."
+      }
+    },
+    "otel-agent:searchMovies.orama_hybrid_search:0dbbfb5c": {
+      "old": {
+        "n": 347,
+        "mean": 1578.9561451527384,
+        "stdev": 546.4335561781621,
+        "min": 474.0517830000026,
+        "max": 2929.1897099999987,
+        "p50": 1625.0363609999768,
+        "p90": 2282.7748632000003,
+        "p95": 2358.719827699993,
+        "p99": 2693.1605269200018,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "new": {
+        "n": 347,
+        "mean": 1219.647259982707,
+        "stdev": 484.18759627084114,
+        "min": 457.2979209999903,
+        "max": 2323.4525460000004,
+        "p50": 1174.295358000003,
+        "p90": 1929.5054190000055,
+        "p95": 2045.6149094999855,
+        "p99": 2245.40733252001,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "deltas": {
+        "mean": {
+          "pct": -22.756102902102707,
+          "ci": null
+        },
+        "p50": {
+          "pct": -27.737287227382858,
+          "ci": null
+        },
+        "p95": {
+          "pct": -13.274358171878287,
+          "ci": null
+        }
+      },
+      "statistical_tests": {
+        "welch_t": {
+          "t_statistic": 9.167649147863848,
+          "p_value": 0.0,
+          "is_significant": true
+        },
+        "cohens_d": {
+          "value": -0.6959984054535079,
+          "interpretation": "medium"
+        }
+      },
+      "mde": {
+        "pct": 8.238815011524716,
+        "cohens_d": 0.2593391735091837,
+        "power": 0.8,
+        "observed_exceeds_mde": true,
+        "baseline": "p50"
+      },
+      "meta": {
+        "bootstrap": 2000,
+        "alpha": 0.01,
+        "seed": 0,
+        "power": 0.8,
+        "skip_ci": true,
+        "note": "All deltas are relative percentages: (new-old)/old*100. Positive=regression, negative=improvement."
+      }
+    },
+    "otel-agent:alsRecommender.update_item_factors:35c8b6d2": {
+      "old": {
+        "n": 23770,
+        "mean": 3.422165199873505,
+        "stdev": 6.579179963050356,
+        "min": 0.7032929999986663,
+        "max": 497.31795000005513,
+        "p50": 1.6405185000039637,
+        "p90": 7.8913050000322995,
+        "p95": 11.768744549958498,
+        "p99": 21.236418930064094,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "new": {
+        "n": 23770,
+        "mean": 2.7125205141353588,
+        "stdev": 3.027096533457228,
+        "min": 0.7011679999995977,
+        "max": 157.18647999991663,
+        "p50": 1.663478499976918,
+        "p90": 5.816791300009938,
+        "p95": 8.19521645000786,
+        "p99": 12.814892179976452,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "deltas": {
+        "mean": {
+          "pct": -20.73671621008761,
+          "ci": null
+        },
+        "p50": {
+          "pct": 1.3995575162912772,
+          "ci": null
+        },
+        "p95": {
+          "pct": -30.364565096820286,
+          "ci": null
+        }
+      },
+      "statistical_tests": {
+        "welch_t": {
+          "t_statistic": 15.107314168766925,
+          "p_value": 0.0,
+          "is_significant": true
+        },
+        "cohens_d": {
+          "value": -0.13857588721021452,
+          "interpretation": "negligible"
+        }
+      },
+      "mde": {
+        "pct": 9.781161366145714,
+        "cohens_d": 0.03133417531547437,
+        "power": 0.8,
+        "observed_exceeds_mde": false,
+        "baseline": "p50"
+      },
+      "meta": {
+        "bootstrap": 2000,
+        "alpha": 0.01,
+        "seed": 0,
+        "power": 0.8,
+        "skip_ci": true,
+        "note": "All deltas are relative percentages: (new-old)/old*100. Positive=regression, negative=improvement."
+      }
+    },
+    "otel-agent:shuffleArray.total:4b545f41": {
+      "old": {
+        "n": 103938,
+        "mean": 0.04207505936245707,
+        "stdev": 0.4264216497635365,
+        "min": 0.014035000000149012,
+        "max": 72.1962610000046,
+        "p50": 0.01965500004007481,
+        "p90": 0.02646999999997206,
+        "p95": 0.033343749993946376,
+        "p99": 0.10596342998673702,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "new": {
+        "n": 118204,
+        "mean": 0.02936012139176624,
+        "stdev": 0.18152280488971625,
+        "min": 0.014484000043012202,
+        "max": 16.559424999984913,
+        "p50": 0.020348999998532236,
+        "p90": 0.02998270001262426,
+        "p95": 0.03514484997140243,
+        "p99": 0.06265258000115866,
+        "mean_ci": null,
+        "p95_ci": null,
+        "p50_ci": null
+      },
+      "deltas": {
+        "mean": {
+          "pct": -30.219655452313333,
+          "ci": null
+        },
+        "p50": {
+          "pct": 3.530907947303081,
+          "ci": null
+        },
+        "p95": {
+          "pct": 5.401611929621136,
+          "ci": null
+        }
+      },
+      "statistical_tests": {
+        "welch_t": {
+          "t_statistic": 8.928051372958791,
+          "p_value": 0.0,
+          "is_significant": true
+        },
+        "cohens_d": {
+          "value": -0.039693070238359066,
+          "interpretation": "negligible"
+        }
+      },
+      "mde": {
+        "pct": 23.673171287184065,
+        "cohens_d": 0.01452546139044297,
+        "power": 0.8,
+        "observed_exceeds_mde": false,
+        "baseline": "p50"
+      },
+      "meta": {
+        "bootstrap": 2000,
+        "alpha": 0.01,
+        "seed": 0,
+        "power": 0.8,
+        "skip_ci": true,
+        "note": "All deltas are relative percentages: (new-old)/old*100. Positive=regression, negative=improvement."
+      }
+    }
+  },
+  "missing": {
+    "old_only": [],
+    "new_only": []
+  },
+  "overall": {
+    "old": {
+      "n": 135202,
+      "mean": 13.588261244323363,
+      "stdev": 131.1102099271722,
+      "min": 0.014035000000149012,
+      "max": 5454.850047,
+      "p50": 0.020771500014234334,
+      "p90": 2.7620260999654476,
+      "p95": 11.292298849986391,
+      "p99": 234.5403879700179,
+      "mean_ci": null,
+      "p95_ci": null,
+      "p50_ci": null
+    },
+    "new": {
+      "n": 149468,
+      "mean": 9.91343092449212,
+      "stdev": 97.78021549328018,
+      "min": 0.014484000043012202,
+      "max": 3822.2538649999988,
+      "p50": 0.022201000014320016,
+      "p90": 1.7749741000472585,
+      "p95": 6.602580599955399,
+      "p99": 166.0686069900165,
+      "mean_ci": null,
+      "p95_ci": null,
+      "p50_ci": null
+    },
+    "deltas": {
+      "mean": {
+        "pct": -27.04415416922044,
+        "ci": null
+      },
+      "p50": {
+        "pct": 6.882025848427273,
+        "ci": null
+      },
+      "p95": {
+        "pct": -41.530235006458796,
+        "ci": null
+      }
+    },
+    "statistical_tests": {
+      "welch_t": {
+        "t_statistic": 8.406143585225827,
+        "p_value": 0.0,
+        "is_significant": true
+      },
+      "cohens_d": {
+        "value": -0.03200436845119703,
+        "interpretation": "negligible"
+      }
+    },
+    "mde": {
+      "pct": 7087.339094027969,
+      "cohens_d": 0.012821033737556284,
+      "power": 0.8,
+      "observed_exceeds_mde": false,
+      "baseline": "p50"
+    },
+    "meta": {
+      "bootstrap": 2000,
+      "alpha": 0.01,
+      "seed": 10,
+      "power": 0.8,
+      "skip_ci": true,
+      "note": "All deltas are relative percentages: (new-old)/old*100. Positive=regression, negative=improvement."
+    }
+  },
+  "meta": {
+    "note": "Per-span statistics (grouped by span_name) for SQLite inputs.",
+    "bootstrap": 2000,
+    "power": 0.8,
+    "fast_mode": true,
+    "min_samples_per_span": 10
+  }
+}

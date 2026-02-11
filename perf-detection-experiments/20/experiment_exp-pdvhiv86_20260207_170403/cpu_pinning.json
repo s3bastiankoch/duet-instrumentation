@@ -1,0 +1,9 @@
+{
+  "os_cpuset": "0,4",
+  "base_cpuset": "1,5",
+  "head_cpuset": "2,6",
+  "infra_cpuset": "3,7",
+  "strategy": "isolated",
+  "warnings": [],
+  "topology_summary": "Logical CPUs: 8, Physical Cores: 4, Sockets: 1, NUMA Nodes: 1, Hyperthreading: True"
+}

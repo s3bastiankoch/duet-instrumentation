@@ -1,0 +1,321 @@
+{
+  "per_file": {
+    "examples/movie/src/filtering/als.ts": {
+      "plans": [
+        {
+          "path": "examples/movie/src/filtering/als.ts",
+          "insert_after_new": "// Update item factors.",
+          "occurrence_new": 1,
+          "end_before_new": "}\n\n  // Compute full predictions matrix as U * V^T.",
+          "end_occurrence_new": 1
+        }
+      ],
+      "planned_span_count": 1,
+      "perf_relevant_changed_line_count": 1,
+      "has_perf_relevant_changes": true,
+      "change_is_perf_relevant": true,
+      "perfect_span": {
+        "start_line": 205,
+        "end_line": 220
+      },
+      "within_k_lines": {
+        "k": 5,
+        "per_plan_hits": 1,
+        "per_plan_total": 1,
+        "per_plan_precision": 1.0,
+        "file_hit": true
+      },
+      "expected_spans": ">=1",
+      "no_span_success": null,
+      "false_positive_spans_on_perf_neutral_change": null,
+      "missed_perf_relevant_change": false,
+      "localization_accuracy": 1.0,
+      "localization_error": {
+        "per_plan": [
+          0.0
+        ],
+        "median_finite": 0.0
+      },
+      "located_spans": [
+        {
+          "path": "examples/movie/src/filtering/als.ts",
+          "start_line": 204,
+          "end_line": 222,
+          "start_found": true,
+          "end_found": true,
+          "error": null
+        }
+      ]
+    },
+    "examples/movie/src/filtering/random-walk.ts": {
+      "plans": [
+        {
+          "path": "examples/movie/src/filtering/random-walk.ts",
+          "insert_after_new": "function shuffleArray<T>(array: T[], iterations = 1): T[] {",
+          "occurrence_new": 1,
+          "end_before_new": "return array;",
+          "end_occurrence_new": 1
+        },
+        {
+          "path": "examples/movie/src/filtering/random-walk.ts",
+          "insert_after_new": "// Initialize scores: seed movies get equal probability; others get 0.",
+          "occurrence_new": 1,
+          "end_before_new": "// Iteratively update scores.",
+          "end_occurrence_new": 1
+        },
+        {
+          "path": "examples/movie/src/filtering/random-walk.ts",
+          "insert_after_new": "// Iteratively update scores.",
+          "occurrence_new": 1,
+          "end_before_new": "return scores;",
+          "end_occurrence_new": 1
+        }
+      ],
+      "planned_span_count": 3,
+      "perf_relevant_changed_line_count": 1,
+      "has_perf_relevant_changes": true,
+      "change_is_perf_relevant": true,
+      "perfect_span": {
+        "start_line": 41,
+        "end_line": 44
+      },
+      "within_k_lines": {
+        "k": 5,
+        "per_plan_hits": 2,
+        "per_plan_total": 3,
+        "per_plan_precision": 0.6666666666666666,
+        "file_hit": true
+      },
+      "expected_spans": ">=1",
+      "no_span_success": null,
+      "false_positive_spans_on_perf_neutral_change": null,
+      "missed_perf_relevant_change": false,
+      "localization_accuracy": 1.0,
+      "localization_error": {
+        "per_plan": [
+          24.0,
+          0.0,
+          4.0
+        ],
+        "median_finite": 4.0
+      },
+      "located_spans": [
+        {
+          "path": "examples/movie/src/filtering/random-walk.ts",
+          "start_line": 9,
+          "end_line": 17,
+          "start_found": true,
+          "end_found": true,
+          "error": null
+        },
+        {
+          "path": "examples/movie/src/filtering/random-walk.ts",
+          "start_line": 41,
+          "end_line": 48,
+          "start_found": true,
+          "end_found": true,
+          "error": null
+        },
+        {
+          "path": "examples/movie/src/filtering/random-walk.ts",
+          "start_line": 48,
+          "end_line": 89,
+          "start_found": true,
+          "end_found": true,
+          "error": null
+        }
+      ]
+    },
+    "examples/movie/src/search.ts": {
+      "plans": [
+        {
+          "path": "examples/movie/src/search.ts",
+          "insert_after_new": "console.log(\"Searching for movies...\");",
+          "occurrence_new": 1,
+          "end_before_new": "console.log(`Found ${vectorResult.hits.length} hits`);",
+          "end_occurrence_new": 1
+        },
+        {
+          "path": "examples/movie/src/search.ts",
+          "insert_after_new": "console.log(`Found ${vectorResult.hits.length} hits`);",
+          "occurrence_new": 1,
+          "end_before_new": "return ordered",
+          "end_occurrence_new": 1
+        }
+      ],
+      "planned_span_count": 2,
+      "perf_relevant_changed_line_count": 1,
+      "has_perf_relevant_changes": true,
+      "change_is_perf_relevant": true,
+      "perfect_span": {
+        "start_line": 91,
+        "end_line": 146
+      },
+      "within_k_lines": {
+        "k": 5,
+        "per_plan_hits": 2,
+        "per_plan_total": 2,
+        "per_plan_precision": 1.0,
+        "file_hit": true
+      },
+      "expected_spans": ">=1",
+      "no_span_success": null,
+      "false_positive_spans_on_perf_neutral_change": null,
+      "missed_perf_relevant_change": false,
+      "localization_accuracy": 1.0,
+      "localization_error": {
+        "per_plan": [
+          0.0,
+          0.0
+        ],
+        "median_finite": 0.0
+      },
+      "located_spans": [
+        {
+          "path": "examples/movie/src/search.ts",
+          "start_line": 90,
+          "end_line": 126,
+          "start_found": true,
+          "end_found": true,
+          "error": null
+        },
+        {
+          "path": "examples/movie/src/search.ts",
+          "start_line": 126,
+          "end_line": 149,
+          "start_found": true,
+          "end_found": true,
+          "error": null
+        }
+      ]
+    },
+    "examples/movie/src/config.ts": {
+      "plans": [],
+      "planned_span_count": 0,
+      "perf_relevant_changed_line_count": 0,
+      "has_perf_relevant_changes": false,
+      "change_is_perf_relevant": false,
+      "perfect_span": {
+        "start_line": 2,
+        "end_line": 2
+      },
+      "within_k_lines": {
+        "k": 5,
+        "per_plan_hits": 0,
+        "per_plan_total": 0,
+        "per_plan_precision": null,
+        "file_hit": false
+      },
+      "expected_spans": 0,
+      "no_span_success": true,
+      "false_positive_spans_on_perf_neutral_change": false,
+      "localization_accuracy": null,
+      "localization_error": null,
+      "located_spans": []
+    },
+    "examples/movie/src/model.ts": {
+      "plans": [],
+      "planned_span_count": 0,
+      "perf_relevant_changed_line_count": 0,
+      "has_perf_relevant_changes": false,
+      "change_is_perf_relevant": false,
+      "perfect_span": {
+        "start_line": 8,
+        "end_line": 8
+      },
+      "within_k_lines": {
+        "k": 5,
+        "per_plan_hits": 0,
+        "per_plan_total": 0,
+        "per_plan_precision": null,
+        "file_hit": false
+      },
+      "expected_spans": 0,
+      "no_span_success": true,
+      "false_positive_spans_on_perf_neutral_change": false,
+      "localization_accuracy": null,
+      "localization_error": null,
+      "located_spans": []
+    },
+    "examples/movie/src/rate-limits.ts": {
+      "plans": [
+        {
+          "path": "examples/movie/src/rate-limits.ts",
+          "insert_after_new": ") {",
+          "occurrence_new": 1,
+          "end_before_new": "next();",
+          "end_occurrence_new": 1
+        },
+        {
+          "path": "examples/movie/src/rate-limits.ts",
+          "insert_after_new": ".catch((e) => {",
+          "occurrence_new": 1,
+          "end_before_new": "res.status(429).send(\"Too Many Requests\");",
+          "end_occurrence_new": 1
+        }
+      ],
+      "planned_span_count": 2,
+      "perf_relevant_changed_line_count": 0,
+      "has_perf_relevant_changes": false,
+      "change_is_perf_relevant": false,
+      "perfect_span": {
+        "start_line": 34,
+        "end_line": 34
+      },
+      "within_k_lines": {
+        "k": 5,
+        "per_plan_hits": 2,
+        "per_plan_total": 2,
+        "per_plan_precision": 1.0,
+        "file_hit": true
+      },
+      "expected_spans": 0,
+      "no_span_success": false,
+      "false_positive_spans_on_perf_neutral_change": true,
+      "localization_accuracy": null,
+      "localization_error": null,
+      "located_spans": [
+        {
+          "path": "examples/movie/src/rate-limits.ts",
+          "start_line": 26,
+          "end_line": 30,
+          "start_found": true,
+          "end_found": true,
+          "error": null
+        },
+        {
+          "path": "examples/movie/src/rate-limits.ts",
+          "start_line": 32,
+          "end_line": 35,
+          "start_found": true,
+          "end_found": true,
+          "error": null
+        }
+      ]
+    }
+  },
+  "summary": {
+    "files_total": 6,
+    "files_perf_relevant": 3,
+    "files_perf_relevant_with_spans": 3,
+    "files_perf_relevant_missed": 0,
+    "files_perf_neutral": 3,
+    "files_perf_neutral_with_spans_false_positive": 1,
+    "no_span_success_rate_on_perf_neutral_files": 0.6666666666666666,
+    "plan_validity_rate": 1.0,
+    "precision": 0.75,
+    "sensitivity": 1.0,
+    "specificity": 0.6666666666666666,
+    "line_tolerance": 5,
+    "precision_within_k_lines": 0.875,
+    "recall_within_k_lines": 1.0,
+    "specificity_within_k_lines": 0.6666666666666666
+  },
+  "meta": {
+    "head_dir": "/Users/sebastiankoch/git/llm-instrumentation/impl/.otel-agent/head",
+    "plan_path": "/Users/sebastiankoch/git/llm-instrumentation/impl/results/5/experiment_exp-aruo1ysy_20260207_151545/perf_marker_plan.json",
+    "changes_path": "/Users/sebastiankoch/git/llm-instrumentation/impl/results/5/experiment_exp-aruo1ysy_20260207_151545/mock_changes.json",
+    "note": "Line numbers are computed on HEAD source with perf-marker lines stripped to remain comparable to unified diffs. Localization accuracy is file-level (perf-relevant file has any planned span). Plan validity rate counts plans whose start anchor is found in HEAD. Localization error uses perfect spans when provided, otherwise nearest changed line distance. Precision/recall within k lines count a plan as correct if its span is within k lines of a perf-relevant change (or perfect span). Specificity within k lines counts perf-neutral files without any span within k.",
+    "skipped_plans_not_in_changeset": []
+  }
+}

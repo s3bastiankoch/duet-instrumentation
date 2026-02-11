@@ -1,0 +1,72 @@
+services:
+  mongodb-base:
+    container_name: mongodb-base
+    image: mongo:7.0.17
+    ports:
+    - 27017:27017
+    volumes:
+    - dbdata-base:/data/db
+    healthcheck: &id001
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 2s
+      retries: 5
+    cpuset: 1-2,5-6
+  mongodb-head:
+    container_name: mongodb-head
+    image: mongo:7.0.17
+    ports:
+    - 27018:27017
+    volumes:
+    - dbdata-head:/data/db
+    healthcheck: *id001
+    cpuset: 1-2,5-6
+  app-base:
+    container_name: duet-base
+    build:
+      context: ${BASE_DIR}
+      dockerfile: Dockerfile
+    ports:
+    - 3001:4000
+    environment:
+      MONGO_URL: mongodb://mongodb-base:27017/test
+      JWT_SECRET: unused
+      IS_BENCHMARK: 'True'
+      VERSION_TAG: base
+      OTEL_AGENT_VERSION: base
+    restart: unless-stopped
+    cpus: '2'
+    mem_limit: 4G
+    cpuset: 1-2,5-6
+    depends_on:
+      mongodb-base:
+        condition: service_healthy
+  app-head:
+    container_name: duet-head
+    build:
+      context: ${HEAD_DIR}
+      dockerfile: Dockerfile
+    ports:
+    - 3002:4000
+    environment:
+      MONGO_URL: mongodb://mongodb-head:27017/test
+      JWT_SECRET: unused
+      IS_BENCHMARK: 'True'
+      VERSION_TAG: head
+      OTEL_AGENT_VERSION: head
+    restart: unless-stopped
+    cpus: '2'
+    mem_limit: 4G
+    cpuset: 1-2,5-6
+    depends_on:
+      mongodb-head:
+        condition: service_healthy
+networks:
+  default:
+    name: duet-network
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.28.0.0/16
+volumes:
+  dbdata-base: null
+  dbdata-head: null

@@ -1,0 +1,11 @@
+repository_dir: /Users/sebastiankoch/git/llm-instrumentation/impl/examples/movie
+mock_changes_file: /Users/sebastiankoch/git/llm-instrumentation/impl/examples/mock_git/movie_perf_0pct.json
+entrypoint: src/app.ts
+duet_base_cpuset: 2-5
+duet_head_cpuset: 2-5
+duet_mongo_cpuset: 6,7
+duet_separate_mongo: true
+working_dir: /Users/sebastiankoch/git/llm-instrumentation/impl/results/0/experiment_exp-1y7dm939_20260208_174539/noinst-workdir
+instrument: false
+duet_base_port: 3001
+duet_head_port: 3002
