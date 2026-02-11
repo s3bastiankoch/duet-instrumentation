@@ -1,0 +1,117 @@
+{
+  "reports_found": 40,
+  "precision_count": 160,
+  "sensitivity_count": 120,
+  "specificity_count": 120,
+  "plan_validity_count": 160,
+  "error_mean_count": 120,
+  "error_finite_count": 120,
+  "error_infinite_count": 0,
+  "precision_median": 1.0,
+  "sensitivity_median": 1.0,
+  "specificity_median": 1.0,
+  "precision_within_k_median": 0.5,
+  "recall_within_k_median": 1.0,
+  "specificity_within_k_median": 1.0,
+  "line_tolerance": 5,
+  "plan_validity_median": 1.0,
+  "error_mean_of_means": 29.991666666666667,
+  "per_file": {
+    "examples/movie/src/config.ts": {
+      "specificity_mean": 1.0,
+      "specificity_n": 40,
+      "specificity_at_k_mean": 1.0,
+      "specificity_at_k_n": 40
+    },
+    "examples/movie/src/filtering/als.ts": {
+      "precision_mean": 1.0,
+      "precision_n": 40,
+      "sensitivity_mean": 1.0,
+      "sensitivity_n": 40,
+      "precision_at_k_mean": 0.6708333333333333,
+      "precision_at_k_n": 40,
+      "recall_at_k_mean": 1.0,
+      "recall_at_k_n": 40
+    },
+    "examples/movie/src/filtering/random-walk.ts": {
+      "precision_mean": 1.0,
+      "precision_n": 40,
+      "sensitivity_mean": 1.0,
+      "sensitivity_n": 40,
+      "precision_at_k_mean": 0.4541666666666667,
+      "precision_at_k_n": 40,
+      "recall_at_k_mean": 0.8,
+      "recall_at_k_n": 40
+    },
+    "examples/movie/src/model.ts": {
+      "specificity_mean": 1.0,
+      "specificity_n": 40,
+      "specificity_at_k_mean": 1.0,
+      "specificity_at_k_n": 40
+    },
+    "examples/movie/src/rate-limits.ts": {
+      "precision_mean": 0.0,
+      "precision_n": 40,
+      "specificity_mean": 0.0,
+      "specificity_n": 40,
+      "precision_at_k_mean": 0.4583333333333333,
+      "precision_at_k_n": 40,
+      "specificity_at_k_mean": 0.35,
+      "specificity_at_k_n": 40
+    },
+    "examples/movie/src/search.ts": {
+      "precision_mean": 1.0,
+      "precision_n": 40,
+      "sensitivity_mean": 1.0,
+      "sensitivity_n": 40,
+      "precision_at_k_mean": 0.9625,
+      "precision_at_k_n": 40,
+      "recall_at_k_mean": 0.975,
+      "recall_at_k_n": 40
+    }
+  },
+  "per_endpoint": {
+    "U1 (E7)": {
+      "precision_mean": 0.5,
+      "precision_n": 80,
+      "sensitivity_mean": 1.0,
+      "sensitivity_n": 40,
+      "specificity_mean": 0.6666666666666666,
+      "specificity_n": 120,
+      "precision_at_k_mean": 0.7104166666666667,
+      "precision_at_k_n": 80,
+      "recall_at_k_mean": 0.975,
+      "recall_at_k_n": 40,
+      "specificity_at_k_mean": 0.7833333333333333,
+      "specificity_at_k_n": 120
+    },
+    "U2 (E8)": {
+      "precision_mean": 0.5,
+      "precision_n": 80,
+      "sensitivity_mean": 1.0,
+      "sensitivity_n": 40,
+      "specificity_mean": 0.5,
+      "specificity_n": 80,
+      "precision_at_k_mean": 0.45625,
+      "precision_at_k_n": 80,
+      "recall_at_k_mean": 0.8,
+      "recall_at_k_n": 40,
+      "specificity_at_k_mean": 0.675,
+      "specificity_at_k_n": 80
+    },
+    "U3 (E9)": {
+      "precision_mean": 0.5,
+      "precision_n": 80,
+      "sensitivity_mean": 1.0,
+      "sensitivity_n": 40,
+      "specificity_mean": 0.5,
+      "specificity_n": 80,
+      "precision_at_k_mean": 0.5645833333333333,
+      "precision_at_k_n": 80,
+      "recall_at_k_mean": 1.0,
+      "recall_at_k_n": 40,
+      "specificity_at_k_mean": 0.675,
+      "specificity_at_k_n": 80
+    }
+  }
+}

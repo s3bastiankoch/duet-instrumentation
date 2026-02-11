@@ -1,0 +1,137 @@
+#cloud-config
+# Cloud-init configuration for GCP Load Generator VM
+# (intentionally kept identical to STACKIT setup)
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - ca-certificates
+  - gnupg
+  - dirmngr
+
+timezone: UTC
+locale: en_US.UTF-8
+
+write_files:
+  - path: /usr/local/bin/cloud-init-ready-handler.sh
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      FINISHED_PATH="/var/local/cloud-init-finished"
+
+      request_line=""
+      if ! IFS=$'\r' read -r request_line; then
+        exit 0
+      fi
+      while IFS=$'\r' read -r header; do
+        [[ -z "${header}" ]] && break
+      done
+
+      method="$(awk '{print $1}' <<<"${request_line}")"
+      path="$(awk '{print $2}' <<<"${request_line}")"
+
+      respond() {
+        local status="$1"
+        local reason="$2"
+        local body="$3"
+        printf 'HTTP/1.1 %s %s\r\n' "$status" "$reason"
+        printf 'Content-Type: text/plain; charset=utf-8\r\n'
+        printf 'Content-Length: %s\r\n' "${#body}"
+        printf 'Connection: close\r\n'
+        printf '\r\n'
+        printf '%s' "$body"
+      }
+
+      if [[ "${method}" != "GET" ]]; then
+        respond "405" "Method Not Allowed" "method not allowed\n"
+        exit 0
+      fi
+
+      if [[ "${path}" == "/ready" || "${path}" == "/ready/" ]]; then
+        if [[ -f "${FINISHED_PATH}" ]]; then
+          respond "200" "OK" "ok\n"
+        else
+          respond "503" "Service Unavailable" "not ready\n"
+        fi
+        exit 0
+      fi
+
+      respond "404" "Not Found" "not found\n"
+    permissions: '0755'
+    owner: root:root
+
+  - path: /etc/systemd/system/cloud-init-ready.socket
+    content: |
+      [Unit]
+      Description=Cloud-init readiness socket (:80)
+
+      [Install]
+      WantedBy=sockets.target
+
+      [Socket]
+      ListenStream=80
+      Accept=yes
+      NoDelay=true
+    permissions: '0644'
+    owner: root:root
+
+  - path: /etc/systemd/system/cloud-init-ready@.service
+    content: |
+      [Unit]
+      Description=Cloud-init readiness handler
+
+      [Service]
+      ExecStart=/usr/local/bin/cloud-init-ready-handler.sh
+      StandardInput=socket
+      StandardOutput=socket
+    permissions: '0644'
+    owner: root:root
+
+  - path: /home/ubuntu/system-monitor.sh
+    content: |
+      #!/bin/bash
+      # Simple system monitoring for load generator
+
+      echo "=== System Information ==="
+      echo "Date: $(date)"
+      echo "Uptime: $(uptime)"
+      echo "CPU Info: $(nproc) cores"
+      echo "Memory: $(free -h | grep Mem | awk '{print $2}')"
+      echo "Disk Space:"
+      df -h | grep -E "/(|mnt)"
+      echo ""
+
+      echo "=== k6 Status ==="
+      k6 version
+    permissions: '0755'
+    owner: ubuntu:ubuntu
+
+runcmd:
+  - systemctl daemon-reload
+  - systemctl enable --now cloud-init-ready.socket
+  - gpg -k
+  - gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+  - echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | tee /etc/apt/sources.list.d/k6.list
+  - apt-get update
+  - apt-get install -y k6
+  - [ bash, -lc, 'set -euo pipefail; install -d -m 0755 /var/local; date -Is > /var/local/cloud-init-finished; chmod 0644 /var/local/cloud-init-finished' ]
+
+final_message: |
+  =====================================================
+  Load Generator VM Setup Complete!
+
+  The system is ready for running k6 load tests.
+
+  To connect:
+  ssh ubuntu@<public-ip>
+
+  To run k6:
+  k6 run script.js
+
+  For system info:
+  /home/ubuntu/system-monitor.sh
+  =====================================================
+
+package_reboot_if_required: true
+

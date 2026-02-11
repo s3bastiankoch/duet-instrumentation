@@ -1,0 +1,323 @@
+#cloud-config
+# Cloud-init configuration for GCP Duet Benchmark VM
+# (intentionally kept identical to STACKIT setup)
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - ca-certificates
+  - lsb-release
+  - curl
+  - gnupg
+
+timezone: UTC
+locale: en_US.UTF-8
+
+write_files:
+  - path: /etc/docker/daemon.json
+    content: |
+      {
+        "log-driver": "json-file",
+        "log-opts": {
+          "max-size": "100m",
+          "max-file": "5"
+        },
+        "storage-driver": "overlay2"
+      }
+    permissions: '0644'
+    owner: root:root
+
+  - path: /etc/default/grub.d/99-duet-cpu-isolation.cfg
+    content: |
+      # Reserve cores for duet workloads; adjust core list to match VM size.
+      GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT isolcpus=2-7 nohz_full=2-7 rcu_nocbs=2-7"
+    permissions: '0644'
+    owner: root:root
+
+  # Socket-activated /ready endpoint (no long-running server)
+  - path: /usr/local/bin/cloud-init-ready-handler.sh
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      FINISHED_PATH="/var/local/cloud-init-finished"
+      REBOOTED_PATH="/var/local/cloud-init-rebooted"
+
+      # Read request line; ignore the rest of the headers.
+      request_line=""
+      if ! IFS=$'\r' read -r request_line; then
+        exit 0
+      fi
+      while IFS=$'\r' read -r header; do
+        [[ -z "${header}" ]] && break
+      done
+
+      method="$(awk '{print $1}' <<<"${request_line}")"
+      path="$(awk '{print $2}' <<<"${request_line}")"
+
+      respond() {
+        local status="$1"
+        local reason="$2"
+        local body="$3"
+        local content_type="${4:-text/plain; charset=utf-8}"
+        printf 'HTTP/1.1 %s %s\r\n' "$status" "$reason"
+        printf 'Content-Type: %s\r\n' "$content_type"
+        printf 'Content-Length: %s\r\n' "${#body}"
+        printf 'Connection: close\r\n'
+        printf '\r\n'
+        printf '%s' "$body"
+      }
+
+      if [[ "${method}" != "GET" ]]; then
+        respond "405" "Method Not Allowed" "method not allowed\n"
+        exit 0
+      fi
+
+      if [[ "${path}" == "/ready" || "${path}" == "/ready/" ]]; then
+        if [[ -f "${FINISHED_PATH}" && -f "${REBOOTED_PATH}" ]]; then
+          respond "200" "OK" "ok"
+        else
+          respond "503" "Service Unavailable" "not ready"
+        fi
+        exit 0
+      fi
+
+      if [[ "${path}" == "/saturation" || "${path}" == "/saturation/" ]]; then
+        # CPU: Take 6 samples (average last 5)
+        cpu_usage=$(top -bn6 -d 0.1 | grep "Cpu(s)" | tail -n 5 | awk '{
+          for (i=1; i<=NF; i++) {
+            if ($i == "id," || $i == "id") { sum += $(i-1); count++ }
+          }
+        } END { if (count > 0) printf "%.1f", 100 - (sum / count) }')
+
+        # Memory: Percent used
+        mem_usage=$(free | grep Mem | awk '{printf "%.1f", $3/$2 * 100.0}')
+
+        body="{\"cpu_percent\": ${cpu_usage}, \"memory_percent\": ${mem_usage}}"
+        respond "200" "OK" "${body}" "application/json; charset=utf-8"
+        exit 0
+      fi
+
+      respond "404" "Not Found" "not found"
+    permissions: '0755'
+    owner: root:root
+
+  - path: /etc/systemd/system/cloud-init-ready.socket
+    content: |
+      [Unit]
+      Description=Cloud-init readiness socket (:80)
+
+      [Socket]
+      ListenStream=80
+      Accept=yes
+      NoDelay=true
+
+      [Install]
+      WantedBy=sockets.target
+    permissions: '0644'
+    owner: root:root
+
+  - path: /etc/systemd/system/cloud-init-ready@.service
+    content: |
+      [Unit]
+      Description=Cloud-init readiness handler
+
+      [Service]
+      ExecStart=/usr/local/bin/cloud-init-ready-handler.sh
+      StandardInput=socket
+      StandardOutput=socket
+    permissions: '0644'
+    owner: root:root
+
+  - path: /usr/local/bin/cloud-init-postreboot.sh
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      FINISHED_PATH="/var/local/cloud-init-finished"
+      REBOOTED_PATH="/var/local/cloud-init-rebooted"
+      if [[ -f "${FINISHED_PATH}" ]]; then
+        date -Is > "${REBOOTED_PATH}"
+        chmod 0644 "${REBOOTED_PATH}"
+      fi
+    permissions: '0755'
+    owner: root:root
+
+  - path: /etc/systemd/system/cloud-init-postreboot.service
+    content: |
+      [Unit]
+      Description=Mark cloud-init reboot completion
+      ConditionPathExists=/var/local/cloud-init-finished
+
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/local/bin/cloud-init-postreboot.sh
+
+      [Install]
+      WantedBy=multi-user.target
+    permissions: '0644'
+    owner: root:root
+
+  - path: /home/ubuntu/system-monitor.sh
+    content: |
+      #!/bin/bash
+      # Simple system monitoring for benchmark runs
+
+      echo "=== System Information ==="
+      echo "Date: $(date)"
+      echo "Uptime: $(uptime)"
+      echo "CPU Info: $(nproc) cores"
+      echo "Memory: $(free -h | grep Mem | awk '{print $2}')"
+      echo "Disk Space:"
+      df -h | grep -E "/(|mnt)"
+      echo ""
+
+      echo "=== Docker Status ==="
+      docker --version
+      docker system df
+    permissions: '0755'
+    owner: ubuntu:ubuntu
+
+  - path: /usr/local/bin/duet-cpu-tune.sh
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+
+      cmdline="$(cat /proc/cmdline)"
+      isolcpus_raw="$(sed -n 's/.*isolcpus=\([^ ]*\).*/\1/p' <<<"${cmdline}")"
+      if [[ -z "${isolcpus_raw}" ]]; then
+        exit 0
+      fi
+
+      python3 - <<'PY'
+      import os
+      import re
+
+      def parse_cpu_list(s: str) -> set[int]:
+          cpus: set[int] = set()
+          for part in s.split(","):
+              part = part.strip()
+              if not part:
+                  continue
+              if "-" in part:
+                  start, end = part.split("-", 1)
+                  cpus.update(range(int(start), int(end) + 1))
+              else:
+                  cpus.add(int(part))
+          return cpus
+
+      def parse_online(s: str) -> list[int]:
+          cpus = parse_cpu_list(s)
+          return sorted(cpus)
+
+      def mask_from_cpus(cpus: set[int]) -> str:
+          if not cpus:
+              return "0"
+          max_cpu = max(cpus)
+          chunks = (max_cpu // 64) + 1
+          masks = []
+          for chunk in range(chunks):
+              value = 0
+              for cpu in range(chunk * 64, (chunk + 1) * 64):
+                  if cpu in cpus:
+                      value |= 1 << (cpu - (chunk * 64))
+              masks.append(f"{value:016x}")
+          return ",".join(reversed(masks))
+
+      cmdline = open("/proc/cmdline", encoding="utf-8").read()
+      m = re.search(r"isolcpus=([^ ]+)", cmdline)
+      if not m:
+          raise SystemExit(0)
+
+      isolated = parse_cpu_list(m.group(1))
+      online = parse_online(open("/sys/devices/system/cpu/online", encoding="utf-8").read())
+      non_isolated = set(online) - isolated
+
+      iso_mask = mask_from_cpus(isolated)
+      non_iso_mask = mask_from_cpus(non_isolated)
+
+      with open("/etc/default/irqbalance", "w", encoding="utf-8") as f:
+          f.write('IRQBALANCE_BANNED_CPUS="' + iso_mask + '"\n')
+
+      with open("/proc/irq/default_smp_affinity", "w", encoding="utf-8") as f:
+          f.write(non_iso_mask + "\n")
+
+      for entry in os.listdir("/proc/irq"):
+          if not entry.isdigit():
+              continue
+          path = f"/proc/irq/{entry}/smp_affinity"
+          try:
+              with open(path, "w", encoding="utf-8") as f:
+                  f.write(non_iso_mask + "\n")
+          except OSError:
+              continue
+      PY
+
+      if command -v cpupower >/dev/null 2>&1; then
+        cpupower frequency-set -g performance >/dev/null 2>&1 || true
+      else
+        for governor_path in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do
+          [[ -f "${governor_path}" ]] && echo performance > "${governor_path}" || true
+        done
+      fi
+
+      if [[ -f /sys/devices/system/cpu/intel_pstate/no_turbo ]]; then
+        echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo || true
+      elif [[ -f /sys/devices/system/cpu/cpufreq/boost ]]; then
+        echo 0 > /sys/devices/system/cpu/cpufreq/boost || true
+      fi
+    permissions: '0755'
+    owner: root:root
+
+  - path: /etc/systemd/system/duet-cpu-tune.service
+    content: |
+      [Unit]
+      Description=Duet CPU tuning (irq + governor + turbo)
+      After=multi-user.target
+
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/local/bin/duet-cpu-tune.sh
+
+      [Install]
+      WantedBy=multi-user.target
+    permissions: '0644'
+    owner: root:root
+
+runcmd:
+  - systemctl daemon-reload
+  - systemctl enable --now cloud-init-ready.socket
+  - systemctl enable cloud-init-postreboot.service
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+  - apt-get update
+  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+  - [ bash, -lc, 'apt-get install -y irqbalance linux-tools-common "linux-tools-$(uname -r)"' ]
+  - systemctl enable --now irqbalance
+  - update-grub
+  - systemctl enable --now duet-cpu-tune.service
+  - systemctl enable docker
+  - systemctl start docker
+  - usermod -aG docker ubuntu
+  - [ bash, -lc, 'set -euo pipefail; install -d -m 0755 /var/local; date -Is > /var/local/cloud-init-finished; chmod 0644 /var/local/cloud-init-finished' ]
+
+final_message: |
+  =====================================================
+  Duet Benchmark VM Setup Complete!
+
+  The system is ready for running duet benchmarks.
+
+  To connect:
+  ssh ubuntu@<public-ip>
+
+  For system info:
+  /home/ubuntu/system-monitor.sh
+  =====================================================
+
+package_reboot_if_required: true
+
+power_state:
+  mode: reboot
+  message: "Rebooting to apply CPU isolation kernel args"
+  timeout: 30
+  condition: true
+

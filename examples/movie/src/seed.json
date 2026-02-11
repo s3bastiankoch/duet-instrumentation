@@ -1,0 +1,176 @@
+{
+  "movies": [
+    {
+      "showId": "MOV001",
+      "id": 1,
+      "original_language": "en",
+      "original_title": "Avengers: Endgame",
+      "overview": "After the devastating events of Avengers: Infinity War, the universe is in ruins. The Avengers assemble once more to reverse Thanos' actions.",
+      "popularity": 95.4,
+      "poster_path": "/path/to/poster1.jpg",
+      "release_date": "2019-04-26",
+      "revenue": 2797800564,
+      "name": "Avengers: Endgame",
+      "vote_average": 8.4,
+      "vote_count": 19324,
+      "region": "us"
+    },
+    {
+      "showId": "MOV002",
+      "id": 2,
+      "original_language": "en",
+      "original_title": "The Dark Knight",
+      "overview": "Batman faces the Joker, a criminal mastermind who tests his resolve and morality.",
+      "popularity": 89.7,
+      "poster_path": "/path/to/poster2.jpg",
+      "release_date": "2008-07-18",
+      "revenue": 1004558444,
+      "name": "The Dark Knight",
+      "vote_average": 9.0,
+      "vote_count": 25104,
+      "region": "us"
+    },
+    {
+      "showId": "MOV003",
+      "id": 3,
+      "original_language": "en",
+      "original_title": "Inception",
+      "overview": "A skilled thief uses dream-sharing technology to steal secrets and plant ideas.",
+      "popularity": 84.3,
+      "poster_path": "/path/to/poster3.jpg",
+      "release_date": "2010-07-16",
+      "revenue": 829895144,
+      "name": "Inception",
+      "vote_average": 8.8,
+      "vote_count": 31050,
+      "region": "us"
+    },
+    {
+      "showId": "MOV004",
+      "id": 4,
+      "original_language": "en",
+      "original_title": "Parasite",
+      "overview": "A poor family schemes to become employed by a wealthy family.",
+      "popularity": 78.9,
+      "poster_path": "/path/to/poster4.jpg",
+      "release_date": "2019-05-30",
+      "revenue": 263421275,
+      "name": "Parasite",
+      "vote_average": 8.6,
+      "vote_count": 15020,
+      "region": "us"
+    },
+    {
+      "showId": "MOV005",
+      "id": 5,
+      "original_language": "en",
+      "original_title": "Avatar",
+      "overview": "A paraplegic Marine is sent to the moon Pandora on a unique mission.",
+      "popularity": 93.2,
+      "poster_path": "/path/to/poster5.jpg",
+      "release_date": "2009-12-18",
+      "revenue": 2926787357,
+      "name": "Avatar",
+      "vote_average": 7.9,
+      "vote_count": 20450,
+      "region": "us"
+    },
+    {
+      "showId": "MOV006",
+      "id": 6,
+      "original_language": "es",
+      "original_title": "Roma",
+      "overview": "A year in the life of a middle-class family in 1970s Mexico City.",
+      "popularity": 45.3,
+      "poster_path": "/path/to/poster6.jpg",
+      "release_date": "2018-08-30",
+      "revenue": null,
+      "name": "Roma",
+      "vote_average": 8.2,
+      "vote_count": 6745,
+      "region": "us"
+    },
+    {
+      "showId": "MOV007",
+      "id": 7,
+      "original_language": "fr",
+      "original_title": "Amélie",
+      "overview": "Amélie, a shy waitress, sets out to improve the lives of those around her.",
+      "popularity": 67.8,
+      "poster_path": "/path/to/poster7.jpg",
+      "release_date": "2001-04-25",
+      "revenue": 174200000,
+      "name": "Amélie",
+      "vote_average": 8.3,
+      "vote_count": 9265,
+      "region": "us"
+    },
+    {
+      "showId": "MOV008",
+      "id": 8,
+      "original_language": "en",
+      "original_title": "Pirates of the Caribbean: Dead Man's Chest",
+      "overview": "Captain Jack Sparrow races to recover the heart of Davy Jones.",
+      "popularity": 80.1,
+      "poster_path": "/path/to/poster8.jpg",
+      "release_date": "2006-07-07",
+      "revenue": 1065659812,
+      "name": "Pirates of the Caribbean: Dead Man's Chest",
+      "vote_average": 7.3,
+      "vote_count": 13950,
+      "region": "us"
+    },
+    {
+      "showId": "MOV009",
+      "id": 9,
+      "original_language": "ja",
+      "original_title": "Spirited Away",
+      "overview": "A young girl becomes trapped in a mysterious spirit world.",
+      "popularity": 85.6,
+      "poster_path": "/path/to/poster9.jpg",
+      "release_date": "2001-07-20",
+      "revenue": 395800000,
+      "name": "Spirited Away",
+      "vote_average": 8.9,
+      "vote_count": 13745,
+      "region": "us"
+    },
+    {
+      "showId": "MOV010",
+      "id": 10,
+      "original_language": "en",
+      "original_title": "Interstellar",
+      "overview": "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+      "popularity": 94.5,
+      "poster_path": "/path/to/poster10.jpg",
+      "release_date": "2014-11-07",
+      "revenue": 677471339,
+      "name": "Interstellar",
+      "vote_average": 8.6,
+      "vote_count": 19520,
+      "region": "us"
+    }
+  ],
+  "userPreferences": [
+    {
+      "userId": "user1",
+      "likedMovies": [1, 3],
+      "dislikedMovies": [2, 4]
+    },
+    {
+      "userId": "user2",
+      "likedMovies": [1, 6],
+      "dislikedMovies": [2, 4]
+    },
+    {
+      "userId": "user3",
+      "likedMovies": [1, 3, 4],
+      "dislikedMovies": []
+    },
+    {
+      "userId": "user4",
+      "likedMovies": [3],
+      "dislikedMovies": []
+    }
+  ]
+}

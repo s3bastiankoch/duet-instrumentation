@@ -1,0 +1,13 @@
+repository_dir: examples/movie
+# mock_changes_file: examples/mock_git/movie_perf_v1_to_v2.json
+#mock_changes_file: examples/mock_git/movie_perf_3pct.json
+mock_changes_file: examples/mock_git/movie_perf_5pct.json
+
+entrypoint: src/app.ts
+
+#duet_base_cpuset: "2,3"    # Pin base to cores 2-3
+#duet_head_cpuset: "4,5"    # Pin head to cores 4-5
+duet_base_cpuset: "2-5"
+duet_head_cpuset: "2-5"
+duet_mongo_cpuset: "6,7"   # Pin MongoDB to cores 6-7
+duet_separate_mongo: true  # Run separate MongoDB per app

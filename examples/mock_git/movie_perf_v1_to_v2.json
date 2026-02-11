@@ -1,0 +1,12 @@
+{
+  "base": "examples/movie",
+  "head": "examples/movie",
+  "files": [
+    {
+      "path": "examples/movie/src/filtering/als.ts",
+      "change_type": "modified",
+      "summary": "Increase ALS iterations by 5% to improve convergence accuracy",
+      "diff_unified": "--- examples/movie/src/filtering/als.ts\n+++ examples/movie/src/filtering/als.ts\n@@ -181,7 +181,7 @@\n   let V = randomMatrix(n, numFactors); // n x numFactors\n \n   // Run alternating least squares.\n-  for (let iter = 0; iter < iterations; iter++) {\n+  for (let iter = 0; iter < Math.ceil(iterations * 1.05); iter++) {\n     // Update user factors.\n     for (let i = 0; i < m; i++) {\n       let A = zeros(numFactors, numFactors);"
+    }
+  ]
+}

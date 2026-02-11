@@ -1,0 +1,51 @@
+[project]
+name = "otel-agent"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+authors = [{ name = "Sebastian Koch", email = "sk@3s.tu-berlin.de" }]
+requires-python = ">=3.12,<4.0"
+dependencies = [
+  # Core
+  "langchain>=0.3.4,<0.4.0",
+  "langgraph>=0.2.39,<0.3.0",
+  "langchain-openai>=0.2.3,<0.3.0",
+  "langchain-anthropic>=0.2.3,<0.3.0",
+  # Observability (CLI tracing to SigNoz via OTLP)
+  "opentelemetry-api>=1.27.0,<2.0.0",
+  "opentelemetry-sdk>=1.27.0,<2.0.0",
+  "opentelemetry-exporter-otlp>=1.27.0,<2.0.0",
+  # Runtime deps used by the codebase
+  # CLI UX
+  "rich>=13.7.1,<14.0.0",
+  "typer>=0.17.4,<0.18.0",
+  "python-dotenv>=1.0.1,<2.0.0",
+  "pyyaml>=6.0.0,<7.0.0",
+  "pydantic>=2.0.0,<3.0.0",
+  "gitpython>=3.1.43,<4.0.0",
+  "diskcache>=5.6.3,<6.0.0",
+  "loguru>=0.7.3,<0.8.0",
+  # Imported directly (may be transitively installed by langchain, but we declare it explicitly)
+  "langsmith>=0.1.0,<0.2.0",
+  # Change analysis + instrumentation planning
+  "smolagents>=1.17.0",
+  # Offline evaluation over Parquet span logs
+  "pyarrow>=18.0.0,<20.0.0",
+  "matplotlib>=3.10.8",
+  "numpy>=2.4.1",
+]
+
+[project.scripts]
+otel-agent = "src.cli:app"
+
+[project.optional-dependencies]
+# Build a standalone executable (per-OS) via PyInstaller.
+bundle = ["pyinstaller>=6.0.0,<7.0.0"]
+test = ["pytest>=8.0.0,<9.0.0"]
+
+[build-system]
+requires = ["hatchling>=1.24.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]

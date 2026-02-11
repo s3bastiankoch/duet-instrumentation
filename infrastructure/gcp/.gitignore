@@ -1,0 +1,43 @@
+# Terraform files
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.auto.tfvars
+.terraform/
+.terraform.lock.hcl
+tfplan
+destroy.tfplan
+crash.log
+crash.*.log
+
+# Backup files
+backups/
+
+# Local environment files
+.env
+.env.local
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# SSH keys (in case someone puts them here)
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+

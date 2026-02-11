@@ -1,0 +1,17 @@
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      # Map the app's port to the host at 80
+      - 4000:4000
+    environment:
+      MONGO_URL: mongodb://127.0.0.1:27017/test
+      JWT_SECRET: ${JWT_SECRET}
+      IS_BENCHMARK: true
+
+    # Restart the app if it crashes
+    restart: on-failure:5
+

@@ -1,0 +1,15 @@
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:7.0.17
+    ports:
+      - 27017:27017
+    volumes:
+      - dbdata:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 2s
+      retries: 5
+
+volumes:
+  dbdata:

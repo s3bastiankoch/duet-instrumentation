@@ -1,0 +1,36 @@
+# Example Terraform variables for STACKIT Duet Benchmark Infrastructure
+# Copy this file to terraform.tfvars and customize the values
+
+# REQUIRED: Your STACKIT project ID
+project_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
+# Project configuration
+project_name = "duet-benchmark"
+owner_name   = "xxx"
+region       = "eu01"
+
+# VM configuration
+vm_machine_type     = "g1.4"    # 4 vCPUs, 8 GB RAM - good for benchmarks
+vm_disk_size_gb     = 100       # Boot disk size
+availability_zone   = "eu01-1"  # Must match region
+
+# SSH access - update with your SSH key path
+ssh_public_key_path = "~/.ssh/id_rsa.pub"
+
+# Network security - IMPORTANT: Consider restricting these in production
+ssh_allowed_cidr  = "0.0.0.0/0"  # Allow SSH from anywhere (consider restricting)
+http_allowed_cidr = "0.0.0.0/0"  # Allow HTTP/HTTPS from anywhere
+
+# Optional: Additional labels for resources
+additional_labels = {
+  environment = "development"
+  owner       = "your-name"
+  purpose     = "benchmark-testing"
+}
+
+# Optional: Monitoring configuration
+enable_monitoring    = false  # Enable basic VM monitoring
+
+# REQUIRED: Stackit service account key path
+stackit_service_account_key_path = "/path/to/your/sa-key.json"
+
