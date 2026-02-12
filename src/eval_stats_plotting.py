@@ -1024,20 +1024,6 @@ def plot_qq_plot(
     ax.set_ylim(lo, hi)
     ax.set_aspect("equal", adjustable="box")
 
-    old_med = statistics.median(old_samples) if old_samples else 0.0
-    new_med = statistics.median(new_samples) if new_samples else 0.0
-    med_delta = ((new_med - old_med) / old_med * 100.0) if old_med != 0 else 0.0
-    ax.text(
-        0.98,
-        0.02,
-        f"Median Δ: {med_delta:+.1f}%",
-        transform=ax.transAxes,
-        ha="right",
-        va="bottom",
-        fontsize=9,
-        color="#333333",
-    )
-
     if save_path:
         _save_figure_pdf(fig, save_path)
 
@@ -1120,20 +1106,6 @@ def plot_span_qq_plots(
         ax.set_xlim(lo, hi)
         ax.set_ylim(lo, hi)
         ax.set_aspect("equal", adjustable="box")
-
-        old_med = statistics.median(old_samples) if old_samples else 0.0
-        new_med = statistics.median(new_samples) if new_samples else 0.0
-        med_delta = ((new_med - old_med) / old_med * 100.0) if old_med != 0 else 0.0
-        ax.text(
-            0.98,
-            0.02,
-            f"Median Δ: {med_delta:+.1f}%",
-            transform=ax.transAxes,
-            ha="right",
-            va="bottom",
-            fontsize=8,
-            color="#333333",
-        )
 
     for j in range(n_spans, len(axes)):
         axes[j].set_visible(False)

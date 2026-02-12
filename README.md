@@ -7,7 +7,7 @@ At a high level, `otel-agent`:
 - **prepares two app versions** (“base” and “head”) from either a git diff range or a JSON changeset
 - uses an LLM to **identify performance-relevant change locations**
 - **instruments** both versions with OpenTelemetry span markers
-- generates a **duet docker compose** to run base/head side-by-side under matched conditions
+- generates a **duet docker compose** to run base/head side-by-side in a duet benchmark
 - provides evaluation tooling to compare **span-level** and **end-to-end** performance samples
 
 ## Repository map
@@ -22,7 +22,7 @@ At a high level, `otel-agent`:
 
 ### Prerequisites
 
-- **Python**: \( \ge 3.12 \) (see `pyproject.toml`)
+- **Python**: (see `pyproject.toml`)
 - **uv**: Python package manager (`https://github.com/astral-sh/uv`)
 - **Docker**: with `docker compose`
 - **LLM credentials**: set at least one provider key (e.g., `OPENAI_API_KEY` or `ANTHROPIC_API_KEY`)
@@ -54,26 +54,6 @@ This writes a working directory (by default `.otel-agent/`) containing:
 - `perf_marker_plan.json` (planned span anchors)
 - `docker-compose.experiment.yml` (merged duet compose; base/head + infra)
 
-### Run the duet locally (Docker)
-
-```bash
-BASE_DIR="$(pwd)/.otel-agent/base" \
-HEAD_DIR="$(pwd)/.otel-agent/head" \
-JWT_SECRET="dev-secret" \
-docker compose -f .otel-agent/docker-compose.experiment.yml up -d --build
-```
-
-The duet exposes (by default):
-
-- base: `http://localhost:3001`
-- head: `http://localhost:3002`
-
-To stop:
-
-```bash
-docker compose -f .otel-agent/docker-compose.experiment.yml down
-```
-
 ## End-to-end experiments (cloud: provision SUT + loadgen VMs)
 
 The evaluation uses a two-VM setup:
@@ -85,17 +65,33 @@ The scripts in `scripts/` automate the full pipeline:
 
 - `otel-agent run` (prepare + optional instrumentation)
 - provision infra via Terraform (GCP or STACKIT)
-- deploy artifacts to the SUT VM and run the duet
+- deploy artifacts to the SUT VM and run the duet setup
 - run `k6` from the loadgen VM
 - download logs + span databases
 - run `otel-agent eval` and write plots/reports
+
+### Experiment map (paper E1--E9)
+
+For quick orientation, the paper's experiments map to this repository as follows:
+
+- **E1--E3 (instrumentation quality)**: run instrumentation + localization only with `scripts/run_instrumentation_eval.sh`; aggregate with `scripts/analyze_localization_reports.sh` (or `scripts/analyze_localization_reports.py`).
+- **E4--E6 (regression sensitivity)**: run the full pipeline with `scripts/run_experiment.sh` across severity levels; re-aggregate span-level results with `scripts/run_eval_folder.sh`.
+- **E7--E9 (A/A overhead)**: compare instrumented vs uninstrumented runs (0% intended change) using `scripts/run_experiment_single_instrument.sh`, then inspect `k6_eval_report*.json` and Q-Q plots.
+
+Key experiment folders:
+
+- `localization-experiments/`: E1--E3 localization outputs (`localization_report.json`) grouped by severity.
+- `perf-detection-experiments/`: E4--E6 full detection runs (`eval_report.json`, `k6_eval_report.json`) plus per-severity aggregates (`eval_report_combined.json`).
+- `overhead-base-experiments/`: source runs used for A/A overhead comparisons.
+- `overhead-experiments-aggregate/`: aggregated A/A k6 analysis (`k6_eval_report_aggregate.json` and per-run reports).
+- `results/`: default output location for newly executed experiments.
 
 ### Prerequisites
 
 - **Terraform** installed locally
 - Provider credentials configured:
   - **GCP**: see `infrastructure/gcp/README.md`
-  - **STACKIT**: not used for experiments and not suffienctly documented
+  - **STACKIT**: not used for experiments, not sufficiently documented
 - A provider-specific `terraform.tfvars` file present (the scripts expect it):
   - `infrastructure/gcp/terraform.tfvars`
   - or `infrastructure/stackit/terraform.tfvars`
@@ -189,6 +185,3 @@ uv run otel-agent --help
 uv run otel-agent run --help
 uv run otel-agent eval --help
 ```
-
-```
-
