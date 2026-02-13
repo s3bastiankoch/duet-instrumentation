@@ -3,7 +3,7 @@ name = "otel-agent"
 version = "0.1.0"
 description = ""
 readme = "README.md"
-authors = [{ name = "Sebastian Koch", email = "sk@3s.tu-berlin.de" }]
+authors = [{ name = "XXX", email = "XXX" }]
 requires-python = ">=3.12,<4.0"
 dependencies = [
   # Core
