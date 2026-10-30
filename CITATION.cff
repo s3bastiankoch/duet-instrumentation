@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use Duet Instrumentation, please cite the paper below."
+title: "Duet Instrumentation"
+authors:
+  - family-names: Koch
+    given-names: Sebastian
+  - family-names: Japke
+    given-names: Nils
+  - family-names: Bermbach
+    given-names: David
+repository-code: "https://github.com/s3bastiankoch/duet-instrumentation"
+preferred-citation:
+  type: conference-paper
+  title: "Duet Instrumentation: An Agentic Approach to Improving Sensitivity in Cloud Service Benchmarking"
+  authors:
+    - family-names: Koch
+      given-names: Sebastian
+    - family-names: Japke
+      given-names: Nils
+    - family-names: Bermbach
+      given-names: David
+  collection-title: "Proceedings of the 2026 IEEE International Conference on Cloud Engineering (IC2E)"
+  publisher:
+    name: IEEE
+  year: 2026
+  identifiers:
+    - type: other
+      value: "arXiv:2605.18397"

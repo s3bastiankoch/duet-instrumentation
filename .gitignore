@@ -71,3 +71,5 @@ config.generated.yml
 *.tgz
 
 overhead-experiments-aggregate
+# README figures
+!docs/*.png

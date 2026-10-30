@@ -1,0 +1,17 @@
+{
+  "name": "duet",
+  "version": "0.1.0",
+  "description": "Duet Instrumentation for Claude Code: span-level performance checks of a code change, base and head run side by side.",
+  "author": {
+    "name": "Sebastian Koch"
+  },
+  "repository": "https://github.com/s3bastiankoch/duet-instrumentation",
+  "keywords": [
+    "performance",
+    "benchmarking",
+    "regression",
+    "duet",
+    "instrumentation"
+  ],
+  "license": "MIT"
+}

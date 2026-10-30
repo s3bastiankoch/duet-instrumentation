@@ -1,0 +1,14 @@
+{
+  "name": "duet-instrumentation",
+  "description": "Duet Instrumentation: span-level performance checks for code changes.",
+  "owner": {
+    "name": "Sebastian Koch"
+  },
+  "plugins": [
+    {
+      "name": "duet",
+      "source": "./",
+      "description": "Checks whether a code change made a service slower, span by span, with a duet benchmark."
+    }
+  ]
+}

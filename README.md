@@ -1,46 +1,96 @@
-# Duet instrumentation
+<div align="center">
 
-This folder contains the **reference implementation** for Duet Instrumentation.
+# Duet Instrumentation
 
-At a high level, `otel-agent`:
+**Find small performance regressions in cloud services by measuring the code that changed**
 
-- **prepares two app versions** (“base” and “head”) from either a git diff range or a JSON changeset
-- uses an LLM to **identify performance-relevant change locations**
-- **instruments** both versions with OpenTelemetry span markers
-- generates a **duet docker compose** to run base/head side-by-side in a duet benchmark
-- provides evaluation tooling to compare **span-level** and **end-to-end** performance samples
+[![Paper](https://img.shields.io/badge/paper-IC2E%202026-b31b1b)](https://arxiv.org/abs/2605.18397)
+[![arXiv](https://img.shields.io/badge/arXiv-2605.18397-b31b1b)](https://arxiv.org/abs/2605.18397)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-3776ab)](pyproject.toml)
+[![OpenTelemetry](https://img.shields.io/badge/spans-OpenTelemetry--style-425cc7)](measure.template.ts)
 
-## Repository map
+</div>
 
-- **`src/`**: Python package implementing the `otel-agent` CLI
-- **`examples/movie/`**: TypeScript “movie server” SUT with configurable performance regressions
-- **`scripts/`**: end-to-end experiment runners (cloud) + offline eval utilities
-- **`infrastructure/`**: Terraform for provisioning benchmark VMs (GCP + STACKIT)
-- **`signoz/`**: optional local SigNoz stack for tracing the CLI itself
+Application benchmarks time whole requests. A change that adds a few percent of work to one function disappears in the noise of I/O, the database and a shared cloud machine, so it reaches production unnoticed and adds up release after release.
 
-## Quickstart (local)
+Duet Instrumentation reads the diff between two versions, lets an LLM agent pick the changes that can affect performance, and puts span markers around them in both versions. Both versions then run side by side on the same machine under the same load, a [duet benchmark](https://doi.org/10.1145/3358960.3379132), and the spans are compared directly. The end-to-end latency is still measured, so nothing is lost.
 
-### Prerequisites
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/results-dark.png">
+  <img src="docs/results-light.png" width="100%" alt="Results: regressions 5x smaller are found than with an end-to-end duet benchmark, in two of three use cases; the agent instruments 93 % of performance-relevant changes within five lines; A/A runs show a Hellinger distance of at most 0.08, so instrumentation leaves the latency distribution nearly unchanged.">
+</picture>
 
-- **Python**: (see `pyproject.toml`)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/detection-dark.png">
+  <img src="docs/detection-light.png" width="100%" alt="Smallest regression detected, injected extra work, lower is better. Movie search U1: 10 % with Duet Instrumentation, 50 % with an end-to-end duet benchmark. Movie ranking U2: 2 % with both. Recommendation U3: 1 % against 5 %.">
+</picture>
+
+## How it works
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/how-it-works-dark.png">
+  <img src="docs/how-it-works-light.png" width="100%" alt="Pipeline in four steps: Diff collects the changes between base and head, Locate lets an LLM agent pick the performance-relevant ones, Instrument puts span markers around them in both versions, Duet run runs both versions side by side on one machine. Span time at each changed location is compared next to end-to-end latency.">
+</picture>
+
+The prototype supports TypeScript services. It ships with a testbed, a movie search, ranking and recommendation service (`examples/movie/`), whose regressions have adjustable severity, so detection can be tested against known ground truth.
+
+## Use it with Claude Code
+
+The fastest way in: a Claude Code skill that runs the whole method on your own repository, in any language Claude can edit. It needs Docker or two free ports, Python 3, and no API keys besides Claude's.
+
+```text
+/plugin marketplace add s3bastiankoch/duet-instrumentation
+/plugin install duet@duet-instrumentation
+```
+
+Then, in your repository:
+
+```text
+/duet:instrument main HEAD
+```
+
+or just ask "did this branch make the search endpoint slower?". Claude reads the diff, shows you which changes it will measure, puts the same span markers into both versions ([TypeScript, Python, Go, Java](skills/instrument/markers/README.md)), runs both side by side under a paired load, and reports each span with the paper's bootstrap test. Nothing is committed; everything happens in `.duet/`.
+
+A run on a toy service whose new version does 3 % more work in one function, hidden behind noisy I/O:
+
+| | name | base median | head median | change | 95% interval | verdict |
+|---|---|---:|---:|---:|---|---|
+| span | `search.fetch` | 7.283 ms | 7.319 ms | +0.17% | [−0.73%, +0.80%] | no change |
+| span | `search.rank` | 0.944 ms | 0.997 ms | **+3.00%** | [+2.79%, +3.17%] | **slower** |
+| end-to-end | `/search` | 9.017 ms | 9.045 ms | +0.21% | [−0.15%, +0.79%] | no change |
+
+The request as a whole shows nothing; the span around the changed function shows the 3 %.
+
+Without the plugin, copy [`skills/instrument/`](skills/instrument) to `~/.claude/skills/instrument/`. The skill's scripts (`duet_load.py`, `analyze.py`) use only the Python standard library and work on their own too.
+
+## The research prototype
+
+The CLI used in the paper (`otel-agent`) instruments TypeScript services with an LLM agent built on smolagents and runs the duet on two cloud VMs.
+
+### Quickstart
+
+#### Prerequisites
+
+- **Python**: 3.12 or newer
 - **uv**: Python package manager (`https://github.com/astral-sh/uv`)
 - **Docker**: with `docker compose`
 - **LLM credentials**: set at least one provider key (e.g., `OPENAI_API_KEY` or `ANTHROPIC_API_KEY`)
 - **Optional (recommended)**: `bun` for TypeScript syntax checks during instrumentation
 
-### Install
+#### Install
 
 ```bash
 uv sync
 ```
 
-### Sanity check
+#### Sanity check
 
 ```bash
 uv run otel-agent doctor
 ```
 
-### Prepare + instrument base/head (default: JSON mode using `config.yml`)
+#### Prepare + instrument base/head (default: JSON mode using `config.yml`)
 
 `otel-agent run` is **config-driven**. By default, this repo ships a `config.yml` that points at `examples/movie` and a mock changeset.
 
@@ -54,9 +104,9 @@ This writes a working directory (by default `.otel-agent/`) containing:
 - `perf_marker_plan.json` (planned span anchors)
 - `docker-compose.experiment.yml` (merged duet compose; base/head + infra)
 
-## End-to-end experiments (cloud: provision SUT + loadgen VMs)
+## Reproducing the paper
 
-The evaluation uses a two-VM setup:
+The experiments run on two cloud VMs (provisioned with Terraform):
 
 - **SUT VM**: runs the duet docker compose (base/head + MongoDB)
 - **Loadgen VM**: runs `k6` and streams results back
@@ -185,3 +235,43 @@ uv run otel-agent --help
 uv run otel-agent run --help
 uv run otel-agent eval --help
 ```
+
+## Repository layout
+
+```
+skills/instrument/           Claude Code skill: SKILL.md, span markers, paired load, analysis
+.claude-plugin/              plugin and marketplace manifests
+src/                         otel-agent CLI: change extraction, LLM analysis, instrumentation, eval
+examples/movie/              TypeScript testbed service with configurable regressions
+examples/mock_git/           JSON changesets, one per severity level
+scripts/                     end-to-end experiment runners and offline evaluation
+infrastructure/              Terraform for the benchmark VMs (GCP, STACKIT)
+localization-experiments/    E1–E3 results
+perf-detection-experiments/  E4–E6 results
+overhead-base-experiments/   E7–E9 source runs
+tests/                       unit tests (uv run pytest)
+```
+
+## Citation
+
+If you use Duet Instrumentation, please cite:
+
+```bibtex
+@inproceedings{koch2026duet,
+  author    = {Koch, Sebastian and Japke, Nils and Bermbach, David},
+  title     = {{Duet Instrumentation}: An Agentic Approach to Improving
+               Sensitivity in Cloud Service Benchmarking},
+  booktitle = {Proceedings of the 2026 IEEE International Conference on
+               Cloud Engineering (IC2E)},
+  year      = {2026},
+  publisher = {IEEE},
+  eprint    = {2605.18397},
+  archivePrefix = {arXiv}
+}
+```
+
+## License
+
+[MIT](LICENSE).
+
+<sub>Scalable Software Systems Research Group, TU Berlin.</sub>
